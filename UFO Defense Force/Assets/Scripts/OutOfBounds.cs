@@ -22,6 +22,8 @@ public class OutOfBounds : MonoBehaviour
         if (transform.position.z < bottomBounds)
         {
             Destroy(gameObject);
+            Debug.Log("GAME OVER");
+            Time.timeScale = 0;
         }
     }
 }
