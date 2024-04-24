@@ -12,15 +12,25 @@ public class MonsterSpawner : MonoBehaviour
     public int enemyCount;
     public int waveCount = 1;
     private bool SpawnCheck;
+    public GameObject powerUp;
+    public int powerupCount;
+    
 
     void Update()
     {
         enemyCount = GameObject.FindGameObjectsWithTag("Enemy").Length;
-
+        powerupCount = GameObject.FindGameObjectsWithTag("Powerup").Length;
         if (enemyCount == 0)
         {
+            
             SpawnEnemyWave(waveCount);
             waveCount++;
+        }
+        
+
+        if(enemyCount == 0 && powerupCount == 0) 
+        {
+            SpawnPowerup();
         }
     }
 
@@ -57,5 +67,10 @@ public class MonsterSpawner : MonoBehaviour
             Instantiate(enemyPrefabs[typesOfEnemys], GenerateSpawnPosition(),transform.rotation);
         }
         ;
+    }
+
+    void SpawnPowerup()
+    {
+        Instantiate(powerUp, GenerateSpawnPosition(), transform.rotation);
     }
 }
