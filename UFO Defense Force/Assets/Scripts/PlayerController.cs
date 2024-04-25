@@ -4,27 +4,34 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
-    public float horizontalInput;
+    public float horizontalInput;//player movement
     public float speed;
-    public float xRange;
 
-    public Transform blaster;
+    public float xRange;//player bounds
+
+    public Transform blaster;//shooting location
     public GameObject laser;
-    public float laserSpawnRate;
-    public bool canFire;
+
+    public float laserSpawnRate; //fire rate
+    public bool canFire; 
+
+    public GameManager gameManager; //link gameManager to use script
+
     // Start is called before the first frame update
     void Start()
     {
         canFire = true;
+        gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();//ref script
     }
 
     // Update is called once per frame
     void Update()
     {
-        horizontalInput = Input.GetAxis("Horizontal");
+        horizontalInput = Input.GetAxis("Horizontal");//get needed WASD
 
-        transform.Translate(Vector3.right * horizontalInput * Time.deltaTime * speed);
-        //leftbounds
+        transform.Translate(Vector3.right * horizontalInput * Time.deltaTime * speed);//movement
+
+        //Player bounds
         if(transform.position.x < -xRange)
         {
             transform.position = new Vector3(-xRange, transform.position.y, transform.position.z); ;
@@ -35,7 +42,8 @@ public class PlayerController : MonoBehaviour
             transform.position = new Vector3(xRange, transform.position.y,transform.position.z);
         }
 
-        if(Input.GetButton("Jump") && canFire)
+        //Shooting
+        if(Input.GetButton("Jump") && canFire && gameManager.isGameOver == false)
         {
             Instantiate(laser, blaster.transform.position, laser.transform.rotation);
             canFire = false;
@@ -43,7 +51,7 @@ public class PlayerController : MonoBehaviour
         }
 
     }
-
+    //fire rate timer
     IEnumerator Timer()
     {
         yield return new WaitForSeconds(laserSpawnRate);

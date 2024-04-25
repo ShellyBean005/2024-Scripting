@@ -6,13 +6,19 @@ public class OutOfBounds : MonoBehaviour
 {
     public float topBounds;
     public float bottomBounds;
-    // Start is called before the first frame update
+
+
+    public GameManager gameManager;//attach gameManager
+
     void Awake()
     {
-        Time.timeScale = 1;
+       
+        gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();//ref gameManagerScript
+
+
     }
 
-    // Update is called once per frame
+  
     void Update()
     {
         if (transform.position.z > topBounds)
@@ -21,9 +27,9 @@ public class OutOfBounds : MonoBehaviour
         }
         if (transform.position.z < bottomBounds)
         {
+            gameManager.EndGame();//use EndGame in gameManager script on bottom bounds
             Destroy(gameObject);
-            Debug.Log("GAME OVER");
-            Time.timeScale = 0;
+
         }
     }
 }
