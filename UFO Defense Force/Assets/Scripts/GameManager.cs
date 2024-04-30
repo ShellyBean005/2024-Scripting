@@ -8,10 +8,17 @@ public class GameManager : MonoBehaviour
 
     public GameObject gameOverText;
 
+    private audioCamera mainCamera;
+    public AudioClip gameOver;
+
+    public PlayerController playerController;
+
     void Awake()
     {
         Time.timeScale = 1; //start time on awake
         isGameOver = false;
+        mainCamera = GameObject.Find("Main Camera").GetComponent<audioCamera>();
+        playerController = GameObject.Find("Player").GetComponent <PlayerController>();
     }
     void Start()
     {
@@ -32,6 +39,9 @@ public class GameManager : MonoBehaviour
     {
         gameOverText.SetActive(true);
         Time.timeScale = 0;//stop time
+        mainCamera.cameraSound.mute = true;
+        playerController.playerAudio.PlayOneShot(gameOver, 1.0f);
         Debug.Log("GameOver");
+
     }
 }

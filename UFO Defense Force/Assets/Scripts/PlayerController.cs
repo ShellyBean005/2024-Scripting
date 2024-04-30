@@ -17,11 +17,15 @@ public class PlayerController : MonoBehaviour
 
     public GameManager gameManager; //link gameManager to use script
 
+    public AudioClip blasterSound;
+    public AudioSource playerAudio;
+
     // Start is called before the first frame update
     void Start()
     {
         canFire = true;
         gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();//ref script
+        playerAudio = GetComponent<AudioSource>();
     }
 
     // Update is called once per frame
@@ -48,6 +52,7 @@ public class PlayerController : MonoBehaviour
             Instantiate(laser, blaster.transform.position, laser.transform.rotation);
             canFire = false;
             StartCoroutine(Timer());
+            playerAudio.PlayOneShot(blasterSound, 1.0f);
         }
 
     }
